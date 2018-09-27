@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oneeth.game.mapper.GameLogMapper">
+	<resultMap id="BaseResultMap" type="com.oneeth.game.entity.GameLog">
+		<constructor>
+			<idArg column="game_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<idArg column="term_number" javaType="java.lang.Integer"
+				jdbcType="INTEGER" />
+			<arg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="curr_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+			<arg column="curr_money" javaType="java.math.BigDecimal"
+				jdbcType="DECIMAL" />
+			<arg column="game_status" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="luckly_address" javaType="java.lang.String"
+				jdbcType="VARCHAR" />
+			<arg column="luckly_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="luckly_hash" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="game_contract" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="award_hash" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="start_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+			<arg column="end_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+			<arg column="free_1" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="free_2" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="free_3" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="revision" javaType="java.lang.Integer" jdbcType="INTEGER" />
+			<arg column="created_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="created_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+			<arg column="updated_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+			<arg column="updated_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		</constructor>
+	</resultMap>
+	<resultMap type="com.oneeth.game.vo.AllPlayingGame" id="AllGame">
+		<id column="id" property="id" />
+		<result column="minimum_money" property="minimumMoney" />
+		<result column="end_point" property="endPoint" />
+		<result column="game_type" property="gameType" />
+		<result column="default_code" property="defaultCode" />
+		<result column="game_code" property="gameCode" />
+		<result column="game_contract" property="gameContract" />
+		<result column="game_status" property="gameStatus" />
+		<result column="term_number" property="termNumber" />
+		<result column="curr_count" property="currCount" />
+		<result column="curr_money" property="currMoney" />
+		<result column="start_time" property="startTime" />
+		<result column="recharge_walletaddress" property="rechargeWalletaddress" />
+	</resultMap>
+
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		game_code, term_number, id, curr_count, curr_money,
+		game_status, luckly_address,
+		luckly_code, luckly_hash, game_contract,
+		award_hash, start_time,
+		end_time, free_1,
+		free_2, free_3, revision,
+		created_by, created_time, updated_by, updated_time
+	</sql>
+	<select id="selectByExample" parameterType="com.oneeth.game.entity.GameLogExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_game_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectAllGame" resultMap="AllGame">
+		select
+		g.`id`,g.`minimum_money`,g.`end_point`,g.`game_type`,g.`default_code`,l.`game_code`,l.`game_contract`,l.`game_status`,l.`term_number`,l.`curr_count`,l.`curr_money`,l.`start_time`
+		from `t_game_info` g left join `t_game_log` l on (
+		l.`game_status`="ING" and g.`game_code`=l.`game_code`) where
+		g.`game_type`!="dreamComeTrue";
+	</select>
+	<select id="selectGameInfo" parameterType="com.oneeth.game.vo.AllPlayingGame"
+		resultMap="AllGame">
+		select
+		g.`id`,g.`minimum_money`,g.`end_point`,g.`game_type`,g.`default_code`,
+		l.`game_code`,l.`game_contract`,l.`game_status`,l.`term_number`,l.`curr_count`,
+		l.`curr_money`,l.`start_time`,y.`recharge_walletaddress`
+		from
+		t_game_log l INNER join `t_game_init_code` y on
+		l.`game_code`=#{gameCode,jdbcType=VARCHAR} and
+		l.`term_number`=#{termNumber,jdbcType=INTEGER} and y.`game_code`=
+		l.`game_code`
+		and y.`my_invit_code`=#{myInvitCode,jdbcType=VARCHAR} INNER join
+		`t_game_info` g on l.`game_code` = g.`game_code`
+	</select>
+	<select id="selectByPrimaryKey" parameterType="com.oneeth.game.entity.GameLogKey"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_game_log
+		where game_code = #{gameCode,jdbcType=VARCHAR}
+		and
+		term_number = #{termNumber,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.oneeth.game.entity.GameLogKey">
+		delete from
+		t_game_log
+		where game_code = #{gameCode,jdbcType=VARCHAR}
+		and
+		term_number = #{termNumber,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.oneeth.game.entity.GameLogExample">
+		delete from t_game_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.oneeth.game.entity.GameLog">
+		insert into t_game_log
+		(game_code, term_number, id,
+		curr_count, curr_money, game_status,
+		luckly_address, luckly_code, luckly_hash,
+		game_contract, award_hash,
+		start_time,
+		end_time, free_1, free_2,
+		free_3, revision, created_by,
+		created_time, updated_by, updated_time
+		)
+		values
+		(#{gameCode,jdbcType=VARCHAR}, #{termNumber,jdbcType=INTEGER},
+		#{id,jdbcType=VARCHAR},
+		#{currCount,jdbcType=INTEGER},
+		#{currMoney,jdbcType=DECIMAL}, #{gameStatus,jdbcType=VARCHAR},
+		#{lucklyAddress,jdbcType=VARCHAR}, #{lucklyCode,jdbcType=VARCHAR},
+		#{lucklyHash,jdbcType=VARCHAR},
+		#{gameContract,jdbcType=VARCHAR},
+		#{awardHash,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+		#{endTime,jdbcType=TIMESTAMP}, #{free1,jdbcType=VARCHAR},
+		#{free2,jdbcType=VARCHAR},
+		#{free3,jdbcType=VARCHAR},
+		#{revision,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR},
+		#{createdTime,jdbcType=TIMESTAMP}, #{updatedBy,jdbcType=VARCHAR},
+		#{updatedTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.oneeth.game.entity.GameLog">
+		insert into t_game_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="gameCode != null">
+				game_code,
+			</if>
+			<if test="termNumber != null">
+				term_number,
+			</if>
+			<if test="id != null">
+				id,
+			</if>
+			<if test="currCount != null">
+				curr_count,
+			</if>
+			<if test="currMoney != null">
+				curr_money,
+			</if>
+			<if test="gameStatus != null">
+				game_status,
+			</if>
+			<if test="lucklyAddress != null">
+				luckly_address,
+			</if>
+			<if test="lucklyCode != null">
+				luckly_code,
+			</if>
+			<if test="lucklyHash != null">
+				luckly_hash,
+			</if>
+			<if test="gameContract != null">
+				game_contract,
+			</if>
+			<if test="awardHash != null">
+				award_hash,
+			</if>
+			<if test="startTime != null">
+				start_time,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="free1 != null">
+				free_1,
+			</if>
+			<if test="free2 != null">
+				free_2,
+			</if>
+			<if test="free3 != null">
+				free_3,
+			</if>
+			<if test="revision != null">
+				revision,
+			</if>
+			<if test="createdBy != null">
+				created_by,
+			</if>
+			<if test="createdTime != null">
+				created_time,
+			</if>
+			<if test="updatedBy != null">
+				updated_by,
+			</if>
+			<if test="updatedTime != null">
+				updated_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="gameCode != null">
+				#{gameCode,jdbcType=VARCHAR},
+			</if>
+			<if test="termNumber != null">
+				#{termNumber,jdbcType=INTEGER},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="currCount != null">
+				#{currCount,jdbcType=INTEGER},
+			</if>
+			<if test="currMoney != null">
+				#{currMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="gameStatus != null">
+				#{gameStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="lucklyAddress != null">
+				#{lucklyAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="lucklyCode != null">
+				#{lucklyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="lucklyHash != null">
+				#{lucklyHash,jdbcType=VARCHAR},
+			</if>
+			<if test="gameContract != null">
+				#{gameContract,jdbcType=VARCHAR},
+			</if>
+			<if test="awardHash != null">
+				#{awardHash,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="free1 != null">
+				#{free1,jdbcType=VARCHAR},
+			</if>
+			<if test="free2 != null">
+				#{free2,jdbcType=VARCHAR},
+			</if>
+			<if test="free3 != null">
+				#{free3,jdbcType=VARCHAR},
+			</if>
+			<if test="revision != null">
+				#{revision,jdbcType=INTEGER},
+			</if>
+			<if test="createdBy != null">
+				#{createdBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				#{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedBy != null">
+				#{updatedBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				#{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.oneeth.game.entity.GameLogExample"
+		resultType="java.lang.Long">
+		select count(*) from t_game_log
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_game_log
+		<set>
+			<if test="record.gameCode != null">
+				game_code = #{record.gameCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.termNumber != null">
+				term_number = #{record.termNumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.currCount != null">
+				curr_count = #{record.currCount,jdbcType=INTEGER},
+			</if>
+			<if test="record.currMoney != null">
+				curr_money = #{record.currMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="record.gameStatus != null">
+				game_status = #{record.gameStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="record.lucklyAddress != null">
+				luckly_address =
+				#{record.lucklyAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="record.lucklyCode != null">
+				luckly_code = #{record.lucklyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.lucklyHash != null">
+				luckly_hash = #{record.lucklyHash,jdbcType=VARCHAR},
+			</if>
+			<if test="record.gameContract != null">
+				game_contract = #{record.gameContract,jdbcType=VARCHAR},
+			</if>
+			<if test="record.awardHash != null">
+				award_hash = #{record.awardHash,jdbcType=VARCHAR},
+			</if>
+			<if test="record.startTime != null">
+				start_time = #{record.startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.endTime != null">
+				end_time = #{record.endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.free1 != null">
+				free_1 = #{record.free1,jdbcType=VARCHAR},
+			</if>
+			<if test="record.free2 != null">
+				free_2 = #{record.free2,jdbcType=VARCHAR},
+			</if>
+			<if test="record.free3 != null">
+				free_3 = #{record.free3,jdbcType=VARCHAR},
+			</if>
+			<if test="record.revision != null">
+				revision = #{record.revision,jdbcType=INTEGER},
+			</if>
+			<if test="record.createdBy != null">
+				created_by = #{record.createdBy,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createdTime != null">
+				created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updatedBy != null">
+				updated_by = #{record.updatedBy,jdbcType=VARCHAR},
+			</if>
+			<if test="record.updatedTime != null">
+				updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_game_log
+		set game_code = #{record.gameCode,jdbcType=VARCHAR},
+		term_number = #{record.termNumber,jdbcType=INTEGER},
+		id =
+		#{record.id,jdbcType=VARCHAR},
+		curr_count =
+		#{record.currCount,jdbcType=INTEGER},
+		curr_money =
+		#{record.currMoney,jdbcType=DECIMAL},
+		game_status =
+		#{record.gameStatus,jdbcType=VARCHAR},
+		luckly_address =
+		#{record.lucklyAddress,jdbcType=VARCHAR},
+		luckly_code =
+		#{record.lucklyCode,jdbcType=VARCHAR},
+		luckly_hash =
+		#{record.lucklyHash,jdbcType=VARCHAR},
+		game_contract =
+		#{record.gameContract,jdbcType=VARCHAR},
+		award_hash =
+		#{record.awardHash,jdbcType=VARCHAR},
+		start_time =
+		#{record.startTime,jdbcType=TIMESTAMP},
+		end_time =
+		#{record.endTime,jdbcType=TIMESTAMP},
+		free_1 =
+		#{record.free1,jdbcType=VARCHAR},
+		free_2 =
+		#{record.free2,jdbcType=VARCHAR},
+		free_3 =
+		#{record.free3,jdbcType=VARCHAR},
+		revision =
+		#{record.revision,jdbcType=INTEGER},
+		created_by =
+		#{record.createdBy,jdbcType=VARCHAR},
+		created_time =
+		#{record.createdTime,jdbcType=TIMESTAMP},
+		updated_by =
+		#{record.updatedBy,jdbcType=VARCHAR},
+		updated_time =
+		#{record.updatedTime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.oneeth.game.entity.GameLog">
+		update t_game_log
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="currCount != null">
+				curr_count = #{currCount,jdbcType=INTEGER},
+			</if>
+			<if test="currMoney != null">
+				curr_money = #{currMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="gameStatus != null">
+				game_status = #{gameStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="lucklyAddress != null">
+				luckly_address = #{lucklyAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="lucklyCode != null">
+				luckly_code = #{lucklyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="lucklyHash != null">
+				luckly_hash = #{lucklyHash,jdbcType=VARCHAR},
+			</if>
+			<if test="gameContract != null">
+				game_contract = #{gameContract,jdbcType=VARCHAR},
+			</if>
+			<if test="awardHash != null">
+				award_hash = #{awardHash,jdbcType=VARCHAR},
+			</if>
+			<if test="startTime != null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="free1 != null">
+				free_1 = #{free1,jdbcType=VARCHAR},
+			</if>
+			<if test="free2 != null">
+				free_2 = #{free2,jdbcType=VARCHAR},
+			</if>
+			<if test="free3 != null">
+				free_3 = #{free3,jdbcType=VARCHAR},
+			</if>
+			<if test="revision != null">
+				revision = #{revision,jdbcType=INTEGER},
+			</if>
+			<if test="createdBy != null">
+				created_by = #{createdBy,jdbcType=VARCHAR},
+			</if>
+			<if test="createdTime != null">
+				created_time = #{createdTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedBy != null">
+				updated_by = #{updatedBy,jdbcType=VARCHAR},
+			</if>
+			<if test="updatedTime != null">
+				updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where game_code = #{gameCode,jdbcType=VARCHAR}
+		and term_number =
+		#{termNumber,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.oneeth.game.entity.GameLog">
+		update t_game_log
+		set id = #{id,jdbcType=VARCHAR},
+		curr_count =
+		#{currCount,jdbcType=INTEGER},
+		curr_money =
+		#{currMoney,jdbcType=DECIMAL},
+		game_status =
+		#{gameStatus,jdbcType=VARCHAR},
+		luckly_address =
+		#{lucklyAddress,jdbcType=VARCHAR},
+		luckly_code =
+		#{lucklyCode,jdbcType=VARCHAR},
+		luckly_hash =
+		#{lucklyHash,jdbcType=VARCHAR},
+		game_contract =
+		#{gameContract,jdbcType=VARCHAR},
+		award_hash =
+		#{awardHash,jdbcType=VARCHAR},
+		start_time =
+		#{startTime,jdbcType=TIMESTAMP},
+		end_time =
+		#{endTime,jdbcType=TIMESTAMP},
+		free_1 = #{free1,jdbcType=VARCHAR},
+		free_2 = #{free2,jdbcType=VARCHAR},
+		free_3 = #{free3,jdbcType=VARCHAR},
+		revision = #{revision,jdbcType=INTEGER},
+		created_by =
+		#{createdBy,jdbcType=VARCHAR},
+		created_time =
+		#{createdTime,jdbcType=TIMESTAMP},
+		updated_by =
+		#{updatedBy,jdbcType=VARCHAR},
+		updated_time =
+		#{updatedTime,jdbcType=TIMESTAMP}
+		where game_code =
+		#{gameCode,jdbcType=VARCHAR}
+		and term_number =
+		#{termNumber,jdbcType=INTEGER}
+	</update>
+</mapper>

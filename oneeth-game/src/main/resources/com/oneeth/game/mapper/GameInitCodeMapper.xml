@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oneeth.game.mapper.GameInitCodeMapper">
+  <resultMap id="BaseResultMap" type="com.oneeth.game.entity.GameInitCode">
+    <constructor>
+      <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="game_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="my_invit_code" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="invit_walletaddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="recharge_walletaddress" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="privtate_key" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="is_recharge" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="is_default" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="luckly_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="luckly_amount" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="partake_count" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="free_1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="free_2" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="free_3" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="revision" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="created_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="created_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="updated_by" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="updated_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, game_code, my_invit_code, invit_walletaddress, recharge_walletaddress, privtate_key, 
+    is_recharge, is_default, luckly_count, luckly_amount, partake_count, free_1, free_2, 
+    free_3, revision, created_by, created_time, updated_by, updated_time
+  </sql>
+  <select id="selectByExample" parameterType="com.oneeth.game.entity.GameInitCodeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_game_init_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_game_init_code
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_game_init_code
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oneeth.game.entity.GameInitCodeExample">
+    delete from t_game_init_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oneeth.game.entity.GameInitCode">
+    insert into t_game_init_code (id, game_code, my_invit_code, 
+      invit_walletaddress, recharge_walletaddress, 
+      privtate_key, is_recharge, is_default, 
+      luckly_count, luckly_amount, partake_count, 
+      free_1, free_2, free_3, 
+      revision, created_by, created_time, 
+      updated_by, updated_time)
+    values (#{id,jdbcType=VARCHAR}, #{gameCode,jdbcType=VARCHAR}, #{myInvitCode,jdbcType=VARCHAR}, 
+      #{invitWalletaddress,jdbcType=VARCHAR}, #{rechargeWalletaddress,jdbcType=VARCHAR}, 
+      #{privtateKey,jdbcType=VARCHAR}, #{isRecharge,jdbcType=VARCHAR}, #{isDefault,jdbcType=VARCHAR}, 
+      #{lucklyCount,jdbcType=INTEGER}, #{lucklyAmount,jdbcType=DECIMAL}, #{partakeCount,jdbcType=INTEGER}, 
+      #{free1,jdbcType=VARCHAR}, #{free2,jdbcType=VARCHAR}, #{free3,jdbcType=VARCHAR}, 
+      #{revision,jdbcType=INTEGER}, #{createdBy,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, 
+      #{updatedBy,jdbcType=VARCHAR}, #{updatedTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oneeth.game.entity.GameInitCode">
+    insert into t_game_init_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="gameCode != null">
+        game_code,
+      </if>
+      <if test="myInvitCode != null">
+        my_invit_code,
+      </if>
+      <if test="invitWalletaddress != null">
+        invit_walletaddress,
+      </if>
+      <if test="rechargeWalletaddress != null">
+        recharge_walletaddress,
+      </if>
+      <if test="privtateKey != null">
+        privtate_key,
+      </if>
+      <if test="isRecharge != null">
+        is_recharge,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="lucklyCount != null">
+        luckly_count,
+      </if>
+      <if test="lucklyAmount != null">
+        luckly_amount,
+      </if>
+      <if test="partakeCount != null">
+        partake_count,
+      </if>
+      <if test="free1 != null">
+        free_1,
+      </if>
+      <if test="free2 != null">
+        free_2,
+      </if>
+      <if test="free3 != null">
+        free_3,
+      </if>
+      <if test="revision != null">
+        revision,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedBy != null">
+        updated_by,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="gameCode != null">
+        #{gameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="myInvitCode != null">
+        #{myInvitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invitWalletaddress != null">
+        #{invitWalletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeWalletaddress != null">
+        #{rechargeWalletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="privtateKey != null">
+        #{privtateKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecharge != null">
+        #{isRecharge,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="lucklyCount != null">
+        #{lucklyCount,jdbcType=INTEGER},
+      </if>
+      <if test="lucklyAmount != null">
+        #{lucklyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="partakeCount != null">
+        #{partakeCount,jdbcType=INTEGER},
+      </if>
+      <if test="free1 != null">
+        #{free1,jdbcType=VARCHAR},
+      </if>
+      <if test="free2 != null">
+        #{free2,jdbcType=VARCHAR},
+      </if>
+      <if test="free3 != null">
+        #{free3,jdbcType=VARCHAR},
+      </if>
+      <if test="revision != null">
+        #{revision,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oneeth.game.entity.GameInitCodeExample" resultType="java.lang.Long">
+    select count(*) from t_game_init_code
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_game_init_code
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gameCode != null">
+        game_code = #{record.gameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.myInvitCode != null">
+        my_invit_code = #{record.myInvitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.invitWalletaddress != null">
+        invit_walletaddress = #{record.invitWalletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rechargeWalletaddress != null">
+        recharge_walletaddress = #{record.rechargeWalletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.privtateKey != null">
+        privtate_key = #{record.privtateKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isRecharge != null">
+        is_recharge = #{record.isRecharge,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDefault != null">
+        is_default = #{record.isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lucklyCount != null">
+        luckly_count = #{record.lucklyCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.lucklyAmount != null">
+        luckly_amount = #{record.lucklyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.partakeCount != null">
+        partake_count = #{record.partakeCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.free1 != null">
+        free_1 = #{record.free1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.free2 != null">
+        free_2 = #{record.free2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.free3 != null">
+        free_3 = #{record.free3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.revision != null">
+        revision = #{record.revision,jdbcType=INTEGER},
+      </if>
+      <if test="record.createdBy != null">
+        created_by = #{record.createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedBy != null">
+        updated_by = #{record.updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedTime != null">
+        updated_time = #{record.updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_game_init_code
+    set id = #{record.id,jdbcType=VARCHAR},
+      game_code = #{record.gameCode,jdbcType=VARCHAR},
+      my_invit_code = #{record.myInvitCode,jdbcType=VARCHAR},
+      invit_walletaddress = #{record.invitWalletaddress,jdbcType=VARCHAR},
+      recharge_walletaddress = #{record.rechargeWalletaddress,jdbcType=VARCHAR},
+      privtate_key = #{record.privtateKey,jdbcType=VARCHAR},
+      is_recharge = #{record.isRecharge,jdbcType=VARCHAR},
+      is_default = #{record.isDefault,jdbcType=VARCHAR},
+      luckly_count = #{record.lucklyCount,jdbcType=INTEGER},
+      luckly_amount = #{record.lucklyAmount,jdbcType=DECIMAL},
+      partake_count = #{record.partakeCount,jdbcType=INTEGER},
+      free_1 = #{record.free1,jdbcType=VARCHAR},
+      free_2 = #{record.free2,jdbcType=VARCHAR},
+      free_3 = #{record.free3,jdbcType=VARCHAR},
+      revision = #{record.revision,jdbcType=INTEGER},
+      created_by = #{record.createdBy,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=TIMESTAMP},
+      updated_by = #{record.updatedBy,jdbcType=VARCHAR},
+      updated_time = #{record.updatedTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oneeth.game.entity.GameInitCode">
+    update t_game_init_code
+    <set>
+      <if test="gameCode != null">
+        game_code = #{gameCode,jdbcType=VARCHAR},
+      </if>
+      <if test="myInvitCode != null">
+        my_invit_code = #{myInvitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="invitWalletaddress != null">
+        invit_walletaddress = #{invitWalletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeWalletaddress != null">
+        recharge_walletaddress = #{rechargeWalletaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="privtateKey != null">
+        privtate_key = #{privtateKey,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecharge != null">
+        is_recharge = #{isRecharge,jdbcType=VARCHAR},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=VARCHAR},
+      </if>
+      <if test="lucklyCount != null">
+        luckly_count = #{lucklyCount,jdbcType=INTEGER},
+      </if>
+      <if test="lucklyAmount != null">
+        luckly_amount = #{lucklyAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="partakeCount != null">
+        partake_count = #{partakeCount,jdbcType=INTEGER},
+      </if>
+      <if test="free1 != null">
+        free_1 = #{free1,jdbcType=VARCHAR},
+      </if>
+      <if test="free2 != null">
+        free_2 = #{free2,jdbcType=VARCHAR},
+      </if>
+      <if test="free3 != null">
+        free_3 = #{free3,jdbcType=VARCHAR},
+      </if>
+      <if test="revision != null">
+        revision = #{revision,jdbcType=INTEGER},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedBy != null">
+        updated_by = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null">
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oneeth.game.entity.GameInitCode">
+    update t_game_init_code
+    set game_code = #{gameCode,jdbcType=VARCHAR},
+      my_invit_code = #{myInvitCode,jdbcType=VARCHAR},
+      invit_walletaddress = #{invitWalletaddress,jdbcType=VARCHAR},
+      recharge_walletaddress = #{rechargeWalletaddress,jdbcType=VARCHAR},
+      privtate_key = #{privtateKey,jdbcType=VARCHAR},
+      is_recharge = #{isRecharge,jdbcType=VARCHAR},
+      is_default = #{isDefault,jdbcType=VARCHAR},
+      luckly_count = #{lucklyCount,jdbcType=INTEGER},
+      luckly_amount = #{lucklyAmount,jdbcType=DECIMAL},
+      partake_count = #{partakeCount,jdbcType=INTEGER},
+      free_1 = #{free1,jdbcType=VARCHAR},
+      free_2 = #{free2,jdbcType=VARCHAR},
+      free_3 = #{free3,jdbcType=VARCHAR},
+      revision = #{revision,jdbcType=INTEGER},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=TIMESTAMP},
+      updated_by = #{updatedBy,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

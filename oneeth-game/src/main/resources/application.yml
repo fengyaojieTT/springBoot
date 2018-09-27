@@ -1,0 +1,7 @@
+spring:
+  profiles:
+    active: @profileActive@
+mybatis:
+   type-aliases-package: com.oneeth.game.entity
+   mapperLocations: classpath:/com/oneeth/game/mapper/*.xml
+   configLocation: classpath:/mybatis/mybatis-config.xml
