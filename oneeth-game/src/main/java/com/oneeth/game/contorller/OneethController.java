@@ -98,21 +98,21 @@ public class OneethController {
 		GameAcountInfo gameAcountInfo = gameInitCodeService.getOrSetAcountInfo(gameCode, walletAddress);
 		return ResponseFormat.retParam(200, gameAcountInfo);
 	}
-	@ApiOperation(value = "开奖详情")
-	@ApiImplicitParams({
-		@ApiImplicitParam(paramType = "path", name = "gameCode", value = "游戏编码", required = true, dataType = "String"),
-		@ApiImplicitParam(paramType = "path", name = "termNumber", value = "游戏期号", required = true, dataType = "Integer"),
-		@ApiImplicitParam(paramType = "path", name = "walletAddress", value = "钱包地址", required = false, dataType = "Integer") })
-	@GetMapping("/queryOrGeneratorInvitCode/{gameCode}/{termNumber}/{walletAddress}")
-	@ResponseBody
-	public OneethResponse<GameKey> queryGameLogInfo(@PathVariable String gameCode,@PathVariable Integer termNumber,
-			@PathVariable String walletAddress) throws Exception {
-		if (StringUtils.isEmpty(gameCode)|| termNumber < 1 || StringUtils.isEmpty(walletAddress)
-				|| !ReflectionUtils.isHexNumber(walletAddress)) {
-			throw new OneethException(10002);
-		}
-		gameInitCodeService.getLogInfoByAcount(gameCode,termNumber, walletAddress);
-		return ResponseFormat.retParam(200, gameAcountInfo);
-	}
+//	@ApiOperation(value = "开奖详情")
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(paramType = "path", name = "gameCode", value = "游戏编码", required = true, dataType = "String"),
+//		@ApiImplicitParam(paramType = "path", name = "termNumber", value = "游戏期号", required = true, dataType = "Integer"),
+//		@ApiImplicitParam(paramType = "path", name = "walletAddress", value = "钱包地址", required = false, dataType = "Integer") })
+//	@GetMapping("/queryOrGeneratorInvitCode/{gameCode}/{termNumber}/{walletAddress}")
+//	@ResponseBody
+//	public OneethResponse<GameKey> queryGameLogInfo(@PathVariable String gameCode,@PathVariable Integer termNumber,
+//			@PathVariable String walletAddress) throws Exception {
+//		if (StringUtils.isEmpty(gameCode)|| termNumber < 1 || StringUtils.isEmpty(walletAddress)
+//				|| !ReflectionUtils.isHexNumber(walletAddress)) {
+//			throw new OneethException(10002);
+//		}
+//		gameInitCodeService.getLogInfoByAcount(gameCode,termNumber, walletAddress);
+//		return ResponseFormat.retParam(200, gameAcountInfo);
+//	}
 
 }

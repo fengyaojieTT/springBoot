@@ -16,7 +16,6 @@ public interface GameInitCodeService {
 	 */
 	GameAcountInfo getOrSetAcountInfo(String gameCode,String walletAddress) throws Exception;
 
-	GameAcountInfo getLogInfoByAcount(String gameCode, Integer termNumber, String walletAddress);
 	
 	
 }
