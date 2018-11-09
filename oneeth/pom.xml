@@ -9,10 +9,10 @@
 
 
 	<!-- 模块说明：这里声明多个子模块 -->
-	<modules>
+	<!-- <modules>
 		<module>oneeth-game</module>
 	</modules>
-
+ -->
 	<properties>
 		<java.version>1.8</java.version>
 		<tomcat.version>7.0.52</tomcat.version>

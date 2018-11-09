@@ -5,6 +5,7 @@
 		<groupId>com.game</groupId>
 		<artifactId>oneeth</artifactId>
 		<version>1.0.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>oneeth-game</artifactId>
 	<packaging>war</packaging>
